@@ -1,0 +1,16 @@
+#+TITLE:	B2W Challenge
+#+AUTHOR:	Jaguaraquem A. Reinaldo
+#+EMAIL:	jaguar.adler@gmail.com
+#+DATE:		2020-03-04
+
+* Descrição
+Desafio proposto pela B2W Digital para processo seletivo.
+Este projeto é dividido em quatro partes:
+
+- [[https://github.com/jadler/b2w-challenge][b2w-challenge]] :: Este é um projeto superpom usado para orquestrar a construção dos demais projetos. Os projetos filhos são repositórios separados e são gerenciados através do =git-subtree=. É possível gerenciar cada repositório usando =git-subtree= mas não é recomendado, utilize este repositório apenas como leitura para construção usando maven.
+
+- [[https://github.com/jadler/b2w-annotation][b2w-annotation]] :: Projeto contendo as interfaces de anotações para gerar código automaticamente do classe de controlle.
+
+- [[https://github.com/jadler/b2w-processor][b2w-processor]] :: Projeto que processa as anotações do projeto [[https://github.com/jadler/b2w-annotation][b2w-annotation]].
+
+- [[https://github.com/jadler/b2w-starwars][b2w-starwars]] :: Implementação do desafio proposto pela B2W.
