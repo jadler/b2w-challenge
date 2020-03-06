@@ -14,3 +14,14 @@ Este projeto é dividido em quatro partes:
 - [[https://github.com/jadler/b2w-processor][b2w-processor]] :: Projeto que processa as anotações do projeto [[https://github.com/jadler/b2w-annotation][b2w-annotation]].
 
 - [[https://github.com/jadler/b2w-starwars][b2w-starwars]] :: Implementação do desafio proposto pela B2W.
+
+* Instalação
+Como este projeto é usado apenas para orquestrar a construção dos subprojetos apenas execute:
+
+#+begin_src sh
+  # Clone
+  git clone https://github.com/jadler/b2w-challenge.git
+
+  # Build
+  mvn clean install
+#+end_src
