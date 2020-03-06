@@ -6,20 +6,18 @@
 * Descrição
 Este projeto é resultado da separação do projeto [[https://github.com/jadler/processor.git][processor]], o outro projeto resultante desta separação encontra-se em [[https://github.com/jadler/b2w-processor.git][b2w-processor]].
 
-Este projeto mantém um conjunto de anotações usadas para criar de forma automática as classes de =Repository=  e =Controller= dos seus respectivos modelos.
+Este projeto mantém um conjunto de anotações usadas para criar de forma automática a classe de =Controller= dos seus respectivos modelos.
 
 * Uso
-Para criar a classe =Repository= para o modelo é necessário adicionar a anotação =@GenerateRepository= e para a classe =Controle= adicionar a anotação =@GenerateController=. É possível também criar consultas nas classes de controle para os campos das classe de modelo adicionando a anotação =@MappedProperty=. Para cada campo anotado com =@MappedProperty=, um método =getBy= será criado na classe =Controller=.
+Para criar a classe de controle é necessário adicionar a anotação =@GenerateController= na classe de modelo. É possível também criar consultas básicas nas classes de controle para os campos das classe de modelo adicionando a anotação =@MappedProperty=. Para cada campo anotado com =@MappedProperty=, um método =getBy<Nome do Campo>= será criado na classe =Controller=.
 
 #+begin_src java
   package br.com.jadler.models;
 
   import br.com.jadler.annotation.MappedProperty;
-  import br.com.jadler.annotation.GenerateRepository;
   import br.com.jadler.annotation.GenerateController;
   import org.springframework.data.annotation.Id;
 
-  @GenerateRepository
   @GenerateController
   public class Persons {
 
@@ -38,9 +36,11 @@ Para criar a classe =Repository= para o modelo é necessário adicionar a anota�
   }
 #+end_src
 
-As anotações acima irão gerar duas novas classes =PersonsController= e =PersonsRepository=. Os pacotes em que as classes serão criadas irão usar como base o mesmo pacote to modelo, alterando apenas o último nome para controller e repository respectivamente.
+As anotações acima irão gerar uma nova classe =PersonsController= com os métodos =PersonsController.getById(String value)=, =PersonsController.getByName(String value)= e =PersonsController.getByAge(Integer value)=. O pacote aonde a nova classe =Controller= reside estará no mesmo nível do pacote da classe =Models=.
 
 ** PersonsController
+Resultado do processamento das anotações.
+
 #+begin_src java
   package br.com.jadler.controller;
 
@@ -95,15 +95,5 @@ As anotações acima irão gerar duas novas classes =PersonsController= e =Perso
       public Persons getByAge(@PathVariable("age") java.lang.Integer value) {
           //...
       }
-  }
-#+end_src
-
-** PersonsRepository
-#+begin_src java
-  package br.com.jadler.repository;
-
-  import ...
-
-  public interface PersonsRepository extends MongoRepository<Persons, String> {
   }
 #+end_src
