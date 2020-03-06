@@ -1,0 +1,109 @@
+#+TITLE:	B2W Challenge (Annotation)
+#+AUTHOR:	Jaguaraquem A. Reinaldo
+#+EMAIL:	jaguar.adler@gmail.com
+#+DATE:		2020-03-04
+
+* Descrição
+Este projeto é resultado da separação do projeto [[https://github.com/jadler/processor.git][processor]], o outro projeto resultante desta separação encontra-se em [[https://github.com/jadler/b2w-processor.git][b2w-processor]].
+
+Este projeto mantém um conjunto de anotações usadas para criar de forma automática as classes de =Repository=  e =Controller= dos seus respectivos modelos.
+
+* Uso
+Para criar a classe =Repository= para o modelo é necessário adicionar a anotação =@GenerateRepository= e para a classe =Controle= adicionar a anotação =@GenerateController=. É possível também criar consultas nas classes de controle para os campos das classe de modelo adicionando a anotação =@MappedProperty=. Para cada campo anotado com =@MappedProperty=, um método =getBy= será criado na classe =Controller=.
+
+#+begin_src java
+  package br.com.jadler.models;
+
+  import br.com.jadler.annotation.MappedProperty;
+  import br.com.jadler.annotation.GenerateRepository;
+  import br.com.jadler.annotation.GenerateController;
+  import org.springframework.data.annotation.Id;
+
+  @GenerateRepository
+  @GenerateController
+  public class Persons {
+
+      @Id
+      @MappedProperty
+      private String id;
+
+      @MappedProperty
+      private String name;
+
+      @MappedProperty
+      private Integer age;
+
+      // getters and setters
+
+  }
+#+end_src
+
+As anotações acima irão gerar duas novas classes =PersonsController= e =PersonsRepository=. Os pacotes em que as classes serão criadas irão usar como base o mesmo pacote to modelo, alterando apenas o último nome para controller e repository respectivamente.
+
+** PersonsController
+#+begin_src java
+  package br.com.jadler.controller;
+
+  import ...
+
+  @RestController
+  @RequestMapping("/persons")
+  @ApiOperation("...")
+  public class PersonsController {
+
+      @Autowired
+      protected MongoRepository<Persons, String> repository;
+
+      @ApiOperation("...")
+      @GetMapping({"", "/"})
+      public Collection<Persons> list() {
+          //...
+      }
+
+      @ApiOperation("...")
+      @PostMapping({"/"})
+      public Persons create(@Valid @RequestBody Persons c) {
+          //...
+      }
+
+      @ApiOperation("...")
+      @PutMapping({"/id/{id}"})
+      public Persons modify(@PathVariable("id") String id, @Valid @RequestBody Persons c) {
+          //...
+      }
+
+      @ApiOperation("...")
+      @DeleteMapping({"/id/{id}"})
+      public void delete(@PathVariable String id) {
+          //...
+      }
+
+      @ApiOperation("...")
+      @GetMapping(value = {"/id/{id}"})
+      public Persons getById(@PathVariable("id") java.lang.String value) {
+          //...
+      }
+
+      @ApiOperation("...")
+      @GetMapping(value = {"/name/{name}"})
+      public Persons getByName(@PathVariable("name") java.lang.String value) {
+          //...
+      }
+
+      @ApiOperation("...")
+      @GetMapping(value = {"/age/{age}"})
+      public Persons getByAge(@PathVariable("age") java.lang.Integer value) {
+          //...
+      }
+  }
+#+end_src
+
+** PersonsRepository
+#+begin_src java
+  package br.com.jadler.repository;
+
+  import ...
+
+  public interface PersonsRepository extends MongoRepository<Persons, String> {
+  }
+#+end_src
